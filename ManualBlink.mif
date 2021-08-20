@@ -1,0 +1,47 @@
+-- Altera Memory Initialization File (MIF)
+
+DEPTH = 2048;
+WIDTH = 16;
+
+ADDRESS_RADIX = HEX;
+DATA_RADIX = HEX;
+
+CONTENT
+  BEGIN
+    [000..7FF] : 0000;  -- Default to NOP
+
+           000 : B801;  -- 	LOADI 1
+           001 : 9801;  -- 	OUT   LEDs
+           002 : 8007;  -- 	CALL  WasteTime
+           003 : B800;  -- 	LOADI 0
+           004 : 9801;  -- 	OUT   LEDs
+           005 : 8007;  -- 	CALL  WasteTime
+           006 : 2800;  -- 	JUMP  Main
+           007 : B800;  --     LOADI 0
+           008 : 6801;  --     ADDI  1
+           009 : 0000;  -- 	NOP
+           00A : 0000;  -- 	NOP
+           00B : 0000;  -- 	NOP
+           00C : 0000;  -- 	NOP
+           00D : 0000;  -- 	NOP
+           00E : 0000;  -- 	NOP
+           00F : 0000;  -- 	NOP
+           010 : 0000;  -- 	NOP
+           011 : 0000;  -- 	NOP
+           012 : 0000;  -- 	NOP
+           013 : 0000;  -- 	NOP
+           014 : 0000;  -- 	NOP
+           015 : 0000;  -- 	NOP
+           016 : 0000;  -- 	NOP
+           017 : 0000;  -- 	NOP
+           018 : 0000;  -- 	NOP
+           019 : 0000;  -- 	NOP
+           01A : 0000;  -- 	NOP
+           01B : 0000;  -- 	NOP
+           01C : 0000;  -- 	NOP
+           01D : 0000;  -- 	NOP
+           01E : 0000;  -- 	NOP
+           01F : 4021;  --     JZERO WasteDone
+           020 : 2808;  --     JUMP  WasteLoop
+           021 : 8800;  -- 	RETURN
+  END;

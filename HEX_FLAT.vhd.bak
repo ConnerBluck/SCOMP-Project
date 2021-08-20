@@ -1,0 +1,40 @@
+LIBRARY IEEE;
+USE IEEE.STD_LOGIC_1164.all;
+
+-- Hexadecimal to 7 Segment Decoder for LED Display, denote flat
+--  1) when free held low, displays latched data
+--  2) when free held high, constantly displays input (free-run)
+--  3) data is latched on rising edge of CS
+
+ENTITY HEX_DISP IS
+  PORT( switches : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+        cs       : IN STD_LOGIC := '0';
+        free     : IN STD_LOGIC := '0';
+        resetn   : IN STD_LOGIC := '1';
+        segments : OUT STD_LOGIC_VECTOR(6 DOWNTO 0));
+END HEX_DISP;
+
+ARCHITECTURE a OF HEX_DISP IS
+  SIGNAL latched_hex : STD_LOGIC_VECTOR(3 DOWNTO 0);
+  SIGNAL hex_d       : STD_LOGIC_VECTOR(3 DOWNTO 0);
+
+BEGIN
+
+  PROCESS (resetn, cs)
+  BEGIN
+    IF (resetn = '0') THEN
+      latched_hex <= "0000";
+    ELSIF ( RISING_EDGE(cs) ) THEN
+      latched_hex <= switches;
+    END IF;
+  END PROCESS;
+  
+  
+  WITH free SELECT
+    hex_d  <= latched_hex WHEN '0',
+              switches    WHEN '1';
+           
+  WITH hex_d SELECT
+    segments <= "1000000" WHEN "000001" or "000011" or "000110" or "000001" or "000001",
+                "0000000" WHEN OTHERS;
+END a;
